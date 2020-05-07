@@ -18,6 +18,7 @@ namespace Shop.Web
     using Data;
     using Shop.Web.Data.Entities;
     using Microsoft.AspNetCore.Identity;
+    using Shop.Web.Helpers;
 
     public class Startup
     {
@@ -54,6 +55,7 @@ namespace Shop.Web
 
             services.AddTransient<SeedDb>();
             services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IUserHelper, UserHelper>();
 
 
 

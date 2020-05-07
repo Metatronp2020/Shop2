@@ -7,17 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop.Web.Data;
 using Shop.Web.Data.Entities;
+using Shop.Web.Helpers;
 
 namespace Shop.Web.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly IRepository repository;
+        private readonly IUserHelper userHelper;
 
-        public ProductsController(IRepository repository)
+        public ProductsController(IRepository repository,IUserHelper userHelper)
         {
             
             this.repository = repository;
+            this.userHelper = userHelper;
+           
         }
 
         // GET: Products
@@ -58,7 +62,10 @@ namespace Shop.Web.Controllers
         public async Task<IActionResult> Create( Product product)
         {
             if (ModelState.IsValid)
+
             {
+                //TODO : CHANGE FOR THE LOGGER USER
+                product.User = await this.userHelper.GetUserByEmailAsync("jhon.paz@ubmlat.com");
                 this.repository.AddProduct(product);
                 await this.repository.SaveAllAsync();
                 return RedirectToAction(nameof(Index));
